@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#2d2d2d"/>
+  
+  <!-- Sky -->
+  <rect x="100" y="100" width="600" height="400" fill="#3a3a3a"/>
+  
+  <!-- Building Silhouettes -->
+  <rect x="150" y="250" width="60" height="250" fill="#1a1a1a"/>
+  <rect x="210" y="300" width="50" height="200" fill="#1a1a1a"/>
+  <rect x="260" y="200" width="70" height="300" fill="#1a1a1a"/>
+  <rect x="330" y="280" width="40" height="220" fill="#1a1a1a"/>
+  <rect x="370" y="220" width="80" height="280" fill="#1a1a1a"/>
+  <rect x="450" y="320" width="55" height="180" fill="#1a1a1a"/>
+  <rect x="505" y="250" width="90" height="250" fill="#1a1a1a"/>
+  <rect x="595" y="290" width="65" height="210" fill="#1a1a1a"/>
+  
+  <!-- Windows -->
+  <rect x="165" y="270" width="10" height="10" fill="#bb86fc"/>
+  <rect x="185" y="270" width="10" height="10" fill="#bb86fc"/>
+  <rect x="165" y="290" width="10" height="10" fill="#bb86fc"/>
+  <rect x="185" y="290" width="10" height="10" fill="#bb86fc"/>
+  <rect x="165" y="310" width="10" height="10" fill="#bb86fc"/>
+  <rect x="185" y="310" width="10" height="10" fill="#bb86fc"/>
+  
+  <rect x="385" y="240" width="10" height="10" fill="#bb86fc"/>
+  <rect x="405" y="240" width="10" height="10" fill="#bb86fc"/>
+  <rect x="425" y="240" width="10" height="10" fill="#bb86fc"/>
+  <rect x="385" y="260" width="10" height="10" fill="#bb86fc"/>
+  <rect x="405" y="260" width="10" height="10" fill="#bb86fc"/>
+  <rect x="425" y="260" width="10" height="10" fill="#bb86fc"/>
+  
+  <rect x="525" y="270" width="10" height="10" fill="#bb86fc"/>
+  <rect x="545" y="270" width="10" height="10" fill="#bb86fc"/>
+  <rect x="565" y="270" width="10" height="10" fill="#bb86fc"/>
+  <rect x="525" y="290" width="10" height="10" fill="#bb86fc"/>
+  <rect x="545" y="290" width="10" height="10" fill="#bb86fc"/>
+  <rect x="565" y="290" width="10" height="10" fill="#bb86fc"/>
+  
+  <!-- Moon -->
+  <circle cx="200" cy="170" r="40" fill="#bb86fc"/>
+  
+  <text x="400" y="550" font-family="Arial, sans-serif" font-size="24" fill="#bb86fc" text-anchor="middle">City Nightscape</text>
+</svg>

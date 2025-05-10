@@ -1,0 +1,629 @@
+/* Global Styles */
+:root {
+    --primary-bg: #0a192f;       /* Biru laut gelap */
+    --secondary-bg: #172a45;     /* Biru laut menengah */
+    --card-bg: #1f3a60;          /* Biru laut lebih terang untuk kartu */
+    --primary-text: #f5f5f5;
+    --secondary-text: #8892b0;   /* Teks sekunder biru keabuan */
+    --accent-color: #64ffda;     /* Aksen tosca terang */
+    --accent-color-hover: #4cdbbd; /* Aksen tosca hover */
+    --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: var(--accent-color);
+    transition: color var(--transition-speed) ease;
+}
+
+a:hover {
+    color: var(--accent-color-hover);
+}
+
+/* Header */
+header {
+    background-color: var(--secondary-bg);
+    padding: 1rem 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-text) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: var(--primary-text);
+    padding: 0.5rem 1rem;
+    margin: 0 0.2rem;
+    border-radius: 5px;
+    transition: all var(--transition-speed) ease;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--accent-color);
+}
+
+.navbar-dark .navbar-toggler {
+    border-color: var(--accent-color);
+}
+
+/* Main Content */
+main {
+    min-height: calc(100vh - 120px);
+    padding: 2rem 0;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    position: relative;
+    color: var(--primary-text);
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 70px;
+    height: 4px;
+    background-color: var(--accent-color);
+    margin: 0.5rem auto;
+    border-radius: 2px;
+}
+
+/* Hero Section */
+.hero {
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(rgba(10, 25, 47, 0.8), rgba(23, 42, 69, 0.8)), url('https://source.unsplash.com/random/1600x900/?ocean');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    margin-bottom: 2rem;
+}
+
+.hero-content {
+    max-width: 800px;
+    padding: 2rem;
+    background-color: rgba(10, 25, 47, 0.7);
+    border-radius: 10px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    color: var(--secondary-text);
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    padding: 0.5rem 1.5rem;
+    font-weight: 600;
+    border-radius: 30px;
+    transition: all var(--transition-speed) ease;
+    color: #000; /* Teks button hitam */
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-color-hover);
+    border-color: var(--accent-color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    color: #000; /* Teks button tetap hitam saat hover */
+}
+
+/* Cards */
+.card {
+    background-color: var(--card-bg);
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    margin-bottom: 2rem;
+    height: 100%;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: transform var(--transition-speed) ease;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.card-text {
+    color: var(--secondary-text);
+}
+
+.card-footer {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--secondary-text);
+    font-size: 0.9rem;
+}
+
+/* Gallery and Hall of Fame */
+.gallery-item, .hof-item {
+    cursor: pointer;
+}
+
+/* People Page */
+.profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--accent-color);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 1rem;
+}
+
+.search-box {
+    background-color: var(--secondary-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--primary-text);
+    border-radius: 30px;
+    padding: 0.5rem 1rem;
+    margin-bottom: 2rem;
+}
+
+.search-box:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.3);
+}
+
+/* Structure Page */
+.org-card {
+    text-align: center;
+    padding: 2rem;
+}
+
+.org-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent-color);
+    box-shadow: var(--card-shadow);
+    margin-bottom: 1rem;
+}
+
+.org-title {
+    color: var(--accent-color);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.org-name {
+    font-size: 1.2rem;
+}
+
+.org-leader {
+    margin-bottom: 2rem;
+}
+
+.org-leader .org-img {
+    width: 130px;
+    height: 130px;
+}
+
+.org-leader .org-title {
+    font-size: 1.4rem;
+}
+
+.org-leader .org-name {
+    font-size: 1.5rem;
+}
+
+.tree-line {
+    position: relative;
+}
+
+.tree-line::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    width: 2px;
+    height: 20px;
+    background-color: var(--accent-color);
+}
+
+.horizontal-line {
+    height: 2px;
+    background-color: var(--accent-color);
+    position: relative;
+    margin: 10px 0;
+}
+
+/* Lightbox */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-speed) ease;
+}
+
+.lightbox.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.lightbox-img-container {
+    position: relative;
+    width: 90%;
+    max-width: 1000px;
+    height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.lightbox-img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+    cursor: grab;
+    transform-origin: center center;
+}
+
+.lightbox-img:active {
+    cursor: grabbing;
+}
+
+.lightbox-info {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 5px;
+    margin-top: 1rem;
+    max-width: 90%;
+    width: 600px;
+    text-align: center;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    color: var(--primary-text);
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1010;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.lightbox-close:hover {
+    background-color: var(--accent-color);
+    transform: rotate(90deg);
+}
+
+.zoom-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1010;
+}
+
+.zoom-btn {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--primary-text);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.zoom-btn:hover {
+    background-color: var(--accent-color);
+    color: #000; /* Teks button hitam saat hover */
+    transform: scale(1.1);
+}
+
+.zoom-in:hover {
+    transform: scale(1.2);
+}
+
+.zoom-out:hover {
+    transform: scale(0.9);
+}
+
+.zoom-reset:hover {
+    transform: rotate(360deg);
+}
+
+/* Footer */
+footer {
+    background-color: var(--secondary-bg);
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.footer-text {
+    color: var(--secondary-text);
+}
+
+/* Animation Classes */
+.fade-in {
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        background-color: var(--secondary-bg);
+        padding: 1rem;
+        border-radius: 5px;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    /* Adjust zoom controls for better mobile interaction */
+    .zoom-controls {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .zoom-btn {
+        width: 35px;
+        height: 35px;
+    }
+    
+    /* Lightbox adjustments for tablets */
+    .lightbox-info {
+        width: 95%;
+        max-width: none;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .hero {
+        height: 60vh;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .card-img-top {
+        height: 180px;
+    }
+    
+    /* Adjust lightbox for mobile */
+    .lightbox-img-container {
+        height: 50vh;
+    }
+    
+    /* Search improvements for mobile */
+    .search-container {
+        width: 100%;
+    }
+    
+    .search-box {
+        height: 40px;
+    }
+    
+    .search-button {
+        height: 40px;
+        width: 40px;
+    }
+    
+    /* Organization structure mobile adjustments */
+    .department-section {
+        margin-bottom: 30px;
+    }
+    
+    .department-title {
+        font-size: 0.8rem;
+        padding: 4px 12px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .hero {
+        height: 50vh;
+    }
+    
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .profile-img, .org-img {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .org-leader .org-img {
+        width: 100px;
+        height: 100px;
+    }
+    
+    /* Adjust zoom controls for small screens */
+    .zoom-controls {
+        bottom: 10px;
+        right: 10px;
+        gap: 5px;
+    }
+    
+    .zoom-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
+    }
+    
+    /* More space-efficient lightbox for mobile */
+    .lightbox-img-container {
+        height: 40vh;
+        width: 95%;
+    }
+    
+    .lightbox-info {
+        margin-top: 0.5rem;
+    }
+    
+    .lightbox-info h3 {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .lightbox-info p {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .lightbox-close {
+        top: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+        font-size: 1.5rem;
+    }
+    
+    /* Card adjustments for small screens */
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .card-title {
+        font-size: 1.1rem;
+    }
+    
+    .card-text {
+        font-size: 0.9rem;
+    }
+    
+    /* Better space usage for small screens */
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    
+    .row {
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+    
+    .col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, 
+    .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, 
+    .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, 
+    .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12,
+    .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, 
+    .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12,
+    .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, 
+    .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    
+    /* Pagination for mobile */
+    .pagination .page-link {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.meta.name }} - Zforge Library{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ page.meta.name }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="card-body">
+            <h1 class="mb-4">{{ page.meta.name }}</h1>
+            
+            <div class="code-meta mb-4">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-code me-2"></i>Usage</h5>
+                            </div>
+                            <div class="card-body">
+                                <code class="usage-code">{{ page.meta.usage }}</code>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h5 class="mb-0"><i class="fas fa-tags me-2"></i>Tags</h5>
+                            </div>
+                            <div class="card-body">
+                                {% if page.meta.tags %}
+                                    {% if page.meta.tags is string %}
+                                        {% set tag_list = page.meta.tags.split(',') %}
+                                    {% else %}
+                                        {% set tag_list = page.meta.tags %}
+                                    {% endif %}
+                                    
+                                    {% for tag in tag_list %}
+                                        <a href="{{ url_for('tag', tag=tag.strip()) }}" class="badge rounded-pill bg-secondary text-decoration-none me-1 mb-1">{{ tag.strip() }}</a>
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="text-muted">No tags</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Description</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ page.meta.description }}</p>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-laptop-code me-2"></i>Example</h5>
+                    </div>
+                    <div class="card-body">
+                        <pre><code class="language-javascript">{{ page.meta.example }}</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="code-content markdown-content">
+                {{ page.html|safe }}
+            </div>
+        </div>
+        <div class="card-footer text-center">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left me-1"></i>Back to List
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Ensure all code blocks are highlighted
+        if (typeof Prism !== 'undefined') {
+            Prism.highlightAll();
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Editor</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+
+    <!-- EasyMDE CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- MathJax Configuration -->
+    {% raw %}
+    <script>
+    window.MathJax = {
+        tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+            processEscapes: true,
+            processEnvironments: true,
+            processRefs: true,
+            digits: /^(?:[0-9]+(?:\{,\}[0-9]{3})*(?:\.[0-9]*)?|\.[0-9]+)/,
+            tags: 'ams',
+            packages: {'[+]': ['noerrors', 'mhchem']},
+            macros: {
+                bm: ["\\boldsymbol{#1}", 1],
+                vv: ["\\vec{\\boldsymbol{#1}}", 1]
+            }
+        },
+        options: {
+            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+            ignoreHtmlClass: 'tex2jax_ignore',
+            processHtmlClass: 'tex2jax_process'
+        },
+        startup: {
+            pageReady: () => {
+                return MathJax.startup.defaultPageReady().then(() => {
+                    console.log('MathJax initial typesetting completed');
+                });
+            }
+        }
+    };
+    </script>
+    {% endraw %}
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</head>
+<body>
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Markdown Editor</h1>
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-dark user-status" disabled>
+                    <span class="online-dot"></span>
+                    <span id="random-username">User</span>
+                </button>
+                <span class="author-info">Created by Avezoor</span>
+            </div>
+        </div>
+
+        <div class="btn-toolbar mb-3">
+            <button class="btn btn-secondary me-2" onclick="loadFile()">
+                <i class="fas fa-folder-open"></i> Load File
+            </button>
+            <button class="btn btn-secondary" onclick="saveFile()">
+                <i class="fas fa-save"></i> Save File
+            </button>
+        </div>
+
+        <textarea id="editor"></textarea>
+
+        <div class="file-info">
+            <div>File size: <span id="file-size">0 Bytes</span></div>
+            <div class="save-status saved">
+                <i class="fas fa-circle"></i>
+                <span id="save-status-text">All changes saved</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOC Modal -->
+    <div class="modal fade toc-modal" id="tocModal" tabindex="-1" aria-labelledby="tocModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tocModalLabel">Table of Contents</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="toc-content"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="insertCurrentTOC()">Insert TOC</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery (needed for Bootstrap) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- EasyMDE -->
+    <script src="https://cdn.jsdelivr.net/npm/easymde@2.18.0/dist/easymde.min.js"></script>
+
+    <!-- Marked for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/editor.js') }}"></script>
+</body>
+</html>

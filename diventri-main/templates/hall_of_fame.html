@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+
+{% block title %}Memories - Hall of Fame{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="section-title">Hall of Fame</h1>
+        <p class="text-center mb-5">Celebrating achievements and successes of our members</p>
+        
+        <div class="row">
+            {% for item in hall_of_fame_items %}
+                <div class="col-md-6 col-lg-4 mb-4 hof-card" data-page="{{ loop.index0 // 6 + 1 }}">
+                    <div class="card hof-item">
+                        <div class="card-badge">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <img src="{{ item.image }}?v={{ range(1, 1000) | random }}" class="card-img-top" alt="{{ item.title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.title }}</h5>
+                            <p class="card-text">{{ item.description }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <small>{{ item.date }}</small>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        <div class="row mt-4 mb-5">
+            <div class="col-12">
+                <nav aria-label="Hall of Fame pages">
+                    <ul class="pagination justify-content-center" id="hof-pagination">
+                        <!-- Pagination will be populated by JavaScript -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-item .page-link {
+        background-color: var(--card-bg);
+        color: var(--primary-text);
+        border-color: var(--secondary-bg);
+        transition: all 0.3s ease;
+    }
+    
+    .page-item.active .page-link {
+        background-color: var(--accent-color);
+        color: var(--primary-bg);
+        border-color: var(--accent-color);
+    }
+    
+    .page-item .page-link:hover {
+        background-color: var(--accent-color-hover);
+        color: var(--primary-bg);
+        border-color: var(--accent-color-hover);
+    }
+    
+    .card-img-top {
+        height: 220px;
+        object-fit: cover;
+        transition: all 0.4s ease;
+    }
+    
+    .hof-item {
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .hof-item:hover .card-img-top {
+        transform: scale(1.08);
+    }
+    
+    .card-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        background-color: var(--accent-color);
+        color: var(--primary-bg);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        z-index: 10;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        opacity: 0.9;
+        transition: all 0.3s ease;
+    }
+    
+    .hof-item:hover .card-badge {
+        transform: rotate(360deg) scale(1.2);
+        opacity: 1;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ url_for('static', filename='js/lightbox.js') }}"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize pagination
+        initHofPagination();
+        
+        // Show first page by default
+        showHofPage(1);
+    });
+    
+    // Function to initialize pagination
+    function initHofPagination() {
+        const hofCards = document.querySelectorAll('.hof-card');
+        const itemsPerPage = 6;
+        const totalPages = Math.ceil(hofCards.length / itemsPerPage);
+        const pagination = document.getElementById('hof-pagination');
+        
+        // Clear pagination
+        pagination.innerHTML = '';
+        
+        // Previous button
+        const prevLi = document.createElement('li');
+        prevLi.className = 'page-item';
+        prevLi.innerHTML = `<a class="page-link" href="javascript:void(0)" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>`;
+        prevLi.addEventListener('click', function() {
+            const active = document.querySelector('#hof-pagination .page-item.active');
+            if (active && active.previousElementSibling && active.previousElementSibling.classList.contains('page-item')) {
+                const pageNum = parseInt(active.previousElementSibling.getAttribute('data-page'));
+                showHofPage(pageNum);
+            }
+        });
+        pagination.appendChild(prevLi);
+        
+        // Page numbers
+        for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement('li');
+            li.className = 'page-item';
+            li.setAttribute('data-page', i);
+            li.innerHTML = `<a class="page-link" href="javascript:void(0)">${i}</a>`;
+            li.addEventListener('click', function() {
+                showHofPage(i);
+            });
+            pagination.appendChild(li);
+        }
+        
+        // Next button
+        const nextLi = document.createElement('li');
+        nextLi.className = 'page-item';
+        nextLi.innerHTML = `<a class="page-link" href="javascript:void(0)" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>`;
+        nextLi.addEventListener('click', function() {
+            const active = document.querySelector('#hof-pagination .page-item.active');
+            if (active && active.nextElementSibling && active.nextElementSibling.classList.contains('page-item')) {
+                const pageNum = parseInt(active.nextElementSibling.getAttribute('data-page'));
+                showHofPage(pageNum);
+            }
+        });
+        pagination.appendChild(nextLi);
+    }
+    
+    // Function to show a specific page
+    function showHofPage(pageNum) {
+        // Hide all hof cards
+        const hofCards = document.querySelectorAll('.hof-card');
+        hofCards.forEach(card => {
+            card.style.display = 'none';
+        });
+        
+        // Show cards for current page
+        const cardsToShow = document.querySelectorAll(`.hof-card[data-page="${pageNum}"]`);
+        cardsToShow.forEach(card => {
+            card.style.display = 'block';
+        });
+        
+        // Update active pagination link
+        const paginationItems = document.querySelectorAll('#hof-pagination .page-item');
+        paginationItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('data-page') == pageNum) {
+                item.classList.add('active');
+            }
+        });
+    }
+    </script>
+{% endblock %}

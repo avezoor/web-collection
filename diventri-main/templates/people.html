@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+
+{% block title %}Memories - People{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="section-title">Our People</h1>
+        <p class="text-center mb-4">Meet the people who make our community special</p>
+        
+        <!-- Search Bar -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-6">
+                <div class="search-container">
+                    <input type="text" id="searchInput" class="form-control search-box" placeholder="Search by name or position...">
+                    <button class="search-button" type="button" id="searchButton">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- People Cards -->
+        <div class="row people-container">
+            {% for person in people_items %}
+                <div class="col-md-6 col-lg-4 col-xl-3 mb-4 people-card" data-page="{{ loop.index0 // 8 + 1 }}">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <img src="{{ person.image }}?v={{ range(1, 1000) | random }}" alt="{{ person.name }}" class="profile-img">
+                            <h5 class="card-title">{{ person.name }}</h5>
+                            <div class="card-text">
+                                <p class="mb-1"><i class="fas fa-id-card me-2" style="color: var(--accent-color);"></i>{{ person.id_number }}</p>
+                                <p class="mb-1"><i class="fas fa-birthday-cake me-2" style="color: var(--accent-color);"></i>{{ person.birthdate }}</p>
+                                <p class="mb-0" data-position="{{ person.position }}"><i class="fas fa-graduation-cap me-2" style="color: var(--accent-color);"></i>{{ person.position }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        <div class="row mt-4 mb-5">
+            <div class="col-12">
+                <nav aria-label="People pages">
+                    <ul class="pagination justify-content-center" id="pagination">
+                        <!-- Pagination will be populated by JavaScript -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .search-container {
+        position: relative;
+        width: 100%;
+    }
+    
+    .search-box {
+        padding-right: 50px;
+        border-radius: 25px;
+        height: 45px;
+        background-color: var(--secondary-bg);
+        color: var(--primary-text);
+        border: 2px solid var(--accent-color);
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+    
+    .search-box:focus {
+        box-shadow: 0 0 0 0.2rem rgba(100, 255, 218, 0.25);
+        border-color: var(--accent-color);
+    }
+    
+    .search-button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 45px;
+        width: 45px;
+        background-color: var(--accent-color);
+        color: #000; /* Teks button hitam */
+        border: none;
+        border-radius: 0 25px 25px 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 3;
+    }
+    
+    .search-button:hover {
+        background-color: var(--accent-color-hover);
+        transform: translateX(2px);
+        color: #000; /* Teks button tetap hitam saat hover */
+    }
+    
+    .btn-accent-custom {
+        background-color: var(--accent-color);
+        color: #000; /* Teks button hitam */
+        border-color: var(--accent-color);
+        transition: all 0.3s ease;
+    }
+    
+    .btn-accent-custom:hover {
+        background-color: var(--accent-color-hover);
+        color: #000; /* Teks button tetap hitam saat hover */
+        border-color: var(--accent-color-hover);
+        transform: translateY(-2px);
+    }
+    
+    .page-item .page-link {
+        background-color: var(--card-bg);
+        color: var(--primary-text);
+        border-color: var(--secondary-bg);
+        transition: all 0.3s ease;
+    }
+    
+    .page-item.active .page-link {
+        background-color: var(--accent-color);
+        color: #000; /* Teks button hitam */
+        border-color: var(--accent-color);
+    }
+    
+    .page-item .page-link:hover {
+        background-color: var(--accent-color-hover);
+        color: #000; /* Teks button hitam */
+        border-color: var(--accent-color-hover);
+    }
+    
+    .profile-img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 4px solid var(--accent-color);
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover .profile-img {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize search and pagination
+        initPagination();
+        initSearch();
+        
+        // Show first page by default
+        showPage(1);
+    });
+    
+    // Function to initialize pagination
+    function initPagination() {
+        const peopleCards = document.querySelectorAll('.people-card');
+        const itemsPerPage = 8;
+        const totalPages = Math.ceil(peopleCards.length / itemsPerPage);
+        const pagination = document.getElementById('pagination');
+        
+        // Clear pagination
+        pagination.innerHTML = '';
+        
+        // Previous button
+        const prevLi = document.createElement('li');
+        prevLi.className = 'page-item';
+        prevLi.innerHTML = `<a class="page-link" href="javascript:void(0)" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>`;
+        prevLi.addEventListener('click', function() {
+            const active = document.querySelector('.page-item.active');
+            if (active && active.previousElementSibling && active.previousElementSibling.classList.contains('page-item')) {
+                const pageNum = parseInt(active.previousElementSibling.getAttribute('data-page'));
+                showPage(pageNum);
+            }
+        });
+        pagination.appendChild(prevLi);
+        
+        // Page numbers
+        for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement('li');
+            li.className = 'page-item';
+            li.setAttribute('data-page', i);
+            li.innerHTML = `<a class="page-link" href="javascript:void(0)">${i}</a>`;
+            li.addEventListener('click', function() {
+                showPage(i);
+            });
+            pagination.appendChild(li);
+        }
+        
+        // Next button
+        const nextLi = document.createElement('li');
+        nextLi.className = 'page-item';
+        nextLi.innerHTML = `<a class="page-link" href="javascript:void(0)" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>`;
+        nextLi.addEventListener('click', function() {
+            const active = document.querySelector('.page-item.active');
+            if (active && active.nextElementSibling && active.nextElementSibling.classList.contains('page-item')) {
+                const pageNum = parseInt(active.nextElementSibling.getAttribute('data-page'));
+                showPage(pageNum);
+            }
+        });
+        pagination.appendChild(nextLi);
+    }
+    
+    // Function to show a specific page
+    function showPage(pageNum) {
+        // Hide all people cards
+        const peopleCards = document.querySelectorAll('.people-card');
+        peopleCards.forEach(card => {
+            card.style.display = 'none';
+        });
+        
+        // Show cards for current page
+        const cardsToShow = document.querySelectorAll(`.people-card[data-page="${pageNum}"]`);
+        cardsToShow.forEach(card => {
+            card.style.display = 'block';
+        });
+        
+        // Update active pagination link
+        const paginationItems = document.querySelectorAll('.page-item');
+        paginationItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('data-page') == pageNum) {
+                item.classList.add('active');
+            }
+        });
+    }
+    
+    // Initialize search functionality for people page
+    function initSearch() {
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const peopleCards = document.querySelectorAll('.people-card');
+        const pagination = document.getElementById('pagination');
+        
+        // Function to perform search
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            // If search term is empty, reset pagination and show first page
+            if (searchTerm === '') {
+                peopleCards.forEach(card => {
+                    card.removeAttribute('data-filtered');
+                });
+                pagination.style.display = 'flex';
+                showPage(1);
+                return;
+            }
+            
+            // Hide pagination during search
+            pagination.style.display = 'none';
+            
+            // Filter cards based on search term
+            let hasResults = false;
+            peopleCards.forEach(card => {
+                const name = card.querySelector('.card-title').textContent.toLowerCase();
+                const position = card.querySelector('[data-position]').getAttribute('data-position').toLowerCase();
+                
+                // Show card if name or position contains search term
+                if (name.includes(searchTerm) || position.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    card.setAttribute('data-filtered', 'true');
+                    hasResults = true;
+                } else {
+                    card.style.display = 'none';
+                    card.setAttribute('data-filtered', 'false');
+                }
+            });
+            
+            // Show message if no results
+            const noResultsMessage = document.getElementById('noResults');
+            
+            if (!hasResults) {
+                if (!noResultsMessage) {
+                    const message = document.createElement('div');
+                    message.id = 'noResults';
+                    message.className = 'col-12 text-center mt-4';
+                    message.innerHTML = '<h3>No results found</h3><p>Try a different search term</p>';
+                    document.querySelector('.people-container').appendChild(message);
+                }
+            } else {
+                if (noResultsMessage) {
+                    noResultsMessage.remove();
+                }
+            }
+        }
+        
+        // Search on button click
+        searchButton.addEventListener('click', performSearch);
+        
+        // Search on Enter key
+        searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        // Clear search and show pagination when input is cleared
+        searchInput.addEventListener('input', function() {
+            if (this.value === '') {
+                const noResultsMessage = document.getElementById('noResults');
+                if (noResultsMessage) {
+                    noResultsMessage.remove();
+                }
+                
+                peopleCards.forEach(card => {
+                    card.removeAttribute('data-filtered');
+                });
+                
+                pagination.style.display = 'flex';
+                showPage(1);
+            }
+        });
+    }
+    </script>
+{% endblock %}

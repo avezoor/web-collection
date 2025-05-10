@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %} Zforge Library {% endblock %}
+
+{% block content %}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title mb-4">Zforge Library</h2>
+            
+            <!-- Enhanced Search bar -->
+            <form action="{{ url_for('index') }}" method="get" class="mb-5">
+                <div class="search-container p-4 mb-3">
+                    <h4 class="text-center mb-3 fw-bold"><i class="fas fa-search me-2"></i>Find Code Snippets</h4>
+                    <div class="input-group input-group-lg shadow-lg rounded-pill overflow-hidden">
+                        <span class="input-group-text border-end-0">
+                            <i class="fas fa-code"></i>
+                        </span>
+                        <input type="text" name="query" class="form-control border-start-0" 
+                               placeholder="Search by code name, description, usage, or tags..." 
+                               value="{{ query }}"
+                               autocomplete="off">
+                        <button class="btn btn-primary px-3" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="form-text text-center mt-3">
+                        Search across all code snippets and documentation
+                    </div>
+                    {% if query %}
+                        <div class="text-center mt-3">
+                            <a href="{{ url_for('index') }}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-times-circle me-1"></i>Clear search results
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </form>
+            
+            <!-- Search tips -->
+            {% if not query %}
+            <div class="mb-4 search-tips p-3 rounded">
+                <h6 class="mb-2"><i class="fas fa-lightbulb me-2 text-warning"></i>Search Tips</h6>
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="small mb-0">
+                            <li>Try searching for a language like <a href="{{ url_for('index', query='python') }}" class="search-tip-link">python</a></li>
+                            <li>Search for concepts like <a href="{{ url_for('index', query='function') }}" class="search-tip-link">function</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="small mb-0">
+                            <li>Use exact terms like <a href="{{ url_for('index', query='list comprehension') }}" class="search-tip-link">list comprehension</a></li>
+                            <li>Or browse <a href="#" class="search-tip-link" data-bs-toggle="collapse" data-bs-target="#popularTags">popular tags</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="collapse mt-3" id="popularTags">
+                    <div class="d-flex flex-wrap gap-2 popular-tags">
+                        {% for tag in all_tags %}
+                            <a href="{{ url_for('tag', tag=tag) }}" class="popular-tag">{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if current_tag %}
+                <div class="alert alert-info">
+                    <i class="fas fa-tag me-2"></i>Showing code snippets tagged with: <strong>{{ current_tag }}</strong>
+                    <a href="{{ url_for('index') }}" class="float-end">
+                        <i class="fas fa-times-circle"></i>
+                    </a>
+                </div>
+            {% endif %}
+            
+            {% if pages %}
+                <div class="code-list">
+                    {% for page in pages %}
+                        <div class="code-item card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h3 class="card-title mb-0">
+                                    <a href="{{ url_for('code_detail', path=page.path) }}" class="text-decoration-none">{{ page.meta.name }}</a>
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="code-usage mb-2">
+                                    <strong>Usage:</strong> <code>{{ page.meta.usage }}</code>
+                                </div>
+                                <div class="code-description mb-3">
+                                    {{ page.meta.description }}
+                                </div>
+                                <div class="code-tags">
+                                    {% if page.meta.tags %}
+                                        {% if page.meta.tags is string %}
+                                            {% set tag_list = page.meta.tags.split(',') %}
+                                        {% else %}
+                                            {% set tag_list = page.meta.tags %}
+                                        {% endif %}
+                                        
+                                        {% for tag in tag_list %}
+                                            <a href="{{ url_for('tag', tag=tag.strip()) }}" class="badge rounded-pill text-decoration-none me-1 custom-badge">{{ tag.strip() }}</a>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-footer text-end">
+                                <a href="{{ url_for('code_detail', path=page.path) }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-code me-1"></i>View Details
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if total_pages > 1 %}
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
+                                <a class="page-link" href="{{ url_for('index', page=current_page-1, query=query, tag=current_tag) }}" tabindex="-1" aria-disabled="{{ 'true' if current_page == 1 else 'false' }}">Previous</a>
+                            </li>
+                            
+                            {% for page_num in range(1, total_pages + 1) %}
+                                <li class="page-item {% if page_num == current_page %}active{% endif %}">
+                                    <a class="page-link" href="{{ url_for('index', page=page_num, query=query, tag=current_tag) }}">{{ page_num }}</a>
+                                </li>
+                            {% endfor %}
+                            
+                            <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
+                                <a class="page-link" href="{{ url_for('index', page=current_page+1, query=query, tag=current_tag) }}">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                {% endif %}
+
+            {% else %}
+                <div class="alert alert-info">
+                    {% if query %}
+                        <i class="fas fa-info-circle me-2"></i>No code snippets found matching: <strong>{{ query }}</strong>
+                    {% elif current_tag %}
+                        <i class="fas fa-info-circle me-2"></i>No code snippets found with tag: <strong>{{ current_tag }}</strong>
+                    {% else %}
+                        <i class="fas fa-info-circle me-2"></i>No code snippets available.
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

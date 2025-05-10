@@ -1,0 +1,12 @@
+bootstrap-flask==2.3.3
+email-validator==2.1.1
+flask==3.0.2
+flask-bootstrap==3.3.7.1
+flask-sqlalchemy==3.1.1
+gunicorn==23.0.0
+markdown==3.5.2
+pygments==2.17.2
+werkzeug==3.0.1
+markdown-katex
+python-markdown-math
+flask-flatpages

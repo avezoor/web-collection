@@ -1,0 +1,26 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+.env
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Replit-specific files
+.replit
+.upm/
+replit.nix
+pyproject.toml
+poetry.lock
+
+# Logs
+*.log
+logs/

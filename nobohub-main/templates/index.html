@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Nobohub Infinity{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <h1 class="mb-4">Posts</h1>
+        {% for post in posts %}
+        <article class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">
+                    <a href="{{ url_for('post', path=post.path) }}" class="text-decoration-none">
+                        {{ post.title }}
+                    </a>
+                </h2>
+                {% if post.meta.date %}
+                <p class="text-muted">{{ post.meta.date }}</p>
+                {% endif %}
+                {% if post.meta.description %}
+                <p class="card-text">{{ post.meta.description }}</p>
+                {% endif %}
+                <a href="{{ url_for('post', path=post.path) }}" class="btn">Read More</a>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

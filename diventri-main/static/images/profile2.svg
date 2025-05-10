@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <!-- Background Circle -->
+  <circle cx="150" cy="150" r="150" fill="#3a3a3a"/>
+  
+  <!-- Outer Border -->
+  <circle cx="150" cy="150" r="145" fill="#2d2d2d"/>
+  
+  <!-- Purple Border -->
+  <circle cx="150" cy="150" r="140" fill="none" stroke="#bb86fc" stroke-width="8"/>
+  
+  <!-- Face Shape -->
+  <circle cx="150" cy="150" r="100" fill="#4a4a4a"/>
+  
+  <!-- Eyes -->
+  <ellipse cx="110" cy="130" rx="15" ry="10" fill="#2d2d2d"/>
+  <ellipse cx="190" cy="130" rx="15" ry="10" fill="#2d2d2d"/>
+  
+  <!-- Eyebrows -->
+  <path d="M95,110 Q110,100 125,110" fill="none" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  <path d="M175,110 Q190,100 205,110" fill="none" stroke="#2d2d2d" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Smile -->
+  <path d="M110,180 Q150,230 190,180" fill="none" stroke="#2d2d2d" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- Hair -->
+  <path d="M50,120 Q75,50 150,50 Q225,50 250,120" fill="#2d2d2d"/>
+  <path d="M50,120 Q40,140 60,150" fill="#2d2d2d"/>
+  <path d="M250,120 Q260,140 240,150" fill="#2d2d2d"/>
+  
+  <!-- Glasses -->
+  <circle cx="110" cy="130" r="25" fill="none" stroke="#bb86fc" stroke-width="3"/>
+  <circle cx="190" cy="130" r="25" fill="none" stroke="#bb86fc" stroke-width="3"/>
+  <line x1="135" y1="130" x2="165" y2="130" stroke="#bb86fc" stroke-width="3"/>
+</svg>

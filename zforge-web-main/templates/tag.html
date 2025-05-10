@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Tag: {{ tag }} - Zforge Library{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Tag: {{ tag }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="card-body">
+            <h2 class="mb-4">
+                <i class="fas fa-tag me-2"></i>Code snippets tagged with <span class="badge bg-primary">{{ tag }}</span>
+            </h2>
+            
+            {% if pages %}
+                <div class="code-list">
+                    {% for page in pages %}
+                        <div class="code-item card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h3 class="card-title mb-0">
+                                    <a href="{{ url_for('code_detail', path=page.path) }}" class="text-decoration-none">{{ page.meta.name }}</a>
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="code-usage mb-2">
+                                    <strong>Usage:</strong> <code>{{ page.meta.usage }}</code>
+                                </div>
+                                <div class="code-description mb-3">
+                                    {{ page.meta.description }}
+                                </div>
+                                <div class="code-tags">
+                                    {% if page.meta.tags %}
+                                        {% if page.meta.tags is string %}
+                                            {% set tag_list = page.meta.tags.split(',') %}
+                                        {% else %}
+                                            {% set tag_list = page.meta.tags %}
+                                        {% endif %}
+                                        
+                                        {% for tag_item in tag_list %}
+                                            <a href="{{ url_for('tag', tag=tag_item.strip()) }}" 
+                                               class="badge rounded-pill {% if tag_item.strip() == tag %}bg-primary{% else %}bg-secondary{% endif %} text-decoration-none me-1">
+                                                {{ tag_item.strip() }}
+                                            </a>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-footer text-end">
+                                <a href="{{ url_for('code_detail', path=page.path) }}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-code me-1"></i>View Details
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>No code snippets found with tag: <strong>{{ tag }}</strong>
+                </div>
+            {% endif %}
+        </div>
+        <div class="card-footer text-center">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left me-1"></i>Back to List
+            </a>
+        </div>
+    </div>
+{% endblock %}
